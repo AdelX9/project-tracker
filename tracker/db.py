@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 from collections.abc import Generator
 from contextlib import contextmanager
-from datetime import UTC, date, datetime
+from datetime import date, datetime, timezone
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Connection, Engine
@@ -193,7 +193,7 @@ def create_task(
 def update_task_status(conn: Connection, task_id: int, status: Status) -> None:
     conn.execute(
         text("UPDATE tasks SET status = :status, updated_at = :now WHERE id = :id"),
-        {"status": status.value, "now": datetime.now(UTC), "id": task_id},
+        {"status": status.value, "now": datetime.now(timezone.utc), "id": task_id},
     )
 
 
@@ -203,7 +203,7 @@ def log_hours(conn: Connection, task_id: int, hours: float) -> None:
             "UPDATE tasks SET actual_hours = actual_hours + :hours, "
             "updated_at = :now WHERE id = :id"
         ),
-        {"hours": hours, "now": datetime.now(UTC), "id": task_id},
+        {"hours": hours, "now": datetime.now(timezone.utc), "id": task_id},
     )
 
 
