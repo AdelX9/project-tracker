@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import UTC, date, datetime
+from datetime import date, datetime, timezone
 from enum import Enum
 
 
@@ -37,7 +37,7 @@ class TeamMember:
     role: str = ""
     email: str = ""
     capacity_hours: float = 40.0  # weekly hours available
-    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self) -> None:
         if not self.name:
@@ -59,8 +59,8 @@ class Task:
     actual_hours: float = 0.0
     due_date: date | None = None
     tags: list[str] = field(default_factory=list)
-    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
-    updated_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self) -> None:
         if not self.title:
@@ -89,7 +89,7 @@ class Milestone:
     description: str = ""
     status: MilestoneStatus = MilestoneStatus.OPEN
     target_date: date | None = None
-    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self) -> None:
         if not self.title:
@@ -109,7 +109,7 @@ class Project:
     id: int | None = None
     name: str = ""
     description: str = ""
-    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self) -> None:
         if not self.name:
